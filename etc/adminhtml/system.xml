@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="checkout">
+            <group id="options">
+                <field id="disallowed_payment_methods_for_guest" translate="label" type="multiselect" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disallowed Payment Methods For Guest</label>
+                    <source_model>Magento\Payment\Model\Config\Source\Allmethods</source_model>
+                    <depends>
+                        <field id="guest_checkout">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,32 @@
+{
+  "name": "dr/payment-method-filter",
+  "description": "This module excludes payment methods from checkout by using filters.",
+  "type": "magento2-module",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://repo.magento.com/"
+    }
+  ],
+  "require": {
+    "magento/module-payment": "100.0.*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.3.*",
+    "squizlabs/php_codesniffer": "2.6.*",
+    "magento/module-offline-payments": "100.0.*"
+  },
+  "license": "MIT",
+  "keywords": [
+    "Magento 2",
+    "Payment method filter"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "DR\\PaymentMethodFilter\\": ""
+    }
+  }
+}
