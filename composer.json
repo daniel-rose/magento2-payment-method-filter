@@ -1,6 +1,12 @@
 {
   "name": "dr/payment-method-filter",
   "description": "This module excludes payment methods from checkout by using filters.",
+  "authors": [
+    {
+      "name": "Daniel Rose",
+      "email": "daniel-rose@gmx.de"
+    }
+  ],
   "type": "magento2-module",
   "repositories": [
     {
@@ -12,8 +18,14 @@
     "magento/module-payment": "100.0.*"
   },
   "require-dev": {
-    "phpunit/phpunit": "5.3.*",
-    "squizlabs/php_codesniffer": "2.6.*",
+    "phpunit/phpunit": "4.1.0",
+    "squizlabs/php_codesniffer": "1.5.3",
+    "phpmd/phpmd": "@stable",
+    "pdepend/pdepend": "2.2.2",
+    "sebastian/phpcpd": "2.0.0",
+    "zendframework/zend-http": "~2.4.6",
+    "phing/phing": "@stable",
+    "satooshi/php-coveralls": "@stable",
     "magento/module-offline-payments": "100.0.*"
   },
   "license": "MIT",
@@ -23,10 +35,15 @@
   ],
   "autoload": {
     "files": [
-      "registration.php"
+      "src/registration.php"
     ],
     "psr-4": {
-      "DR\\PaymentMethodFilter\\": ""
+      "DR\\PaymentMethodFilter\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "DR\\PaymentMethodFilter\\Test\\": "tests"
     }
   }
 }
