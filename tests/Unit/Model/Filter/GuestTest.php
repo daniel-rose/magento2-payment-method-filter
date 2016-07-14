@@ -1,6 +1,6 @@
 <?php
 
-namespace DR\PaymentMethodFilter\Test\Unit\Model\Check;
+namespace DR\PaymentMethodFilter\Test\Unit\Model\Filter;
 
 use DR\PaymentMethodFilter\Model\Filter\Guest as GuestFilter;
 use Magento\Framework\App\Config\ScopeConfigInterface;
@@ -134,6 +134,30 @@ class GuestTest extends PHPUnit_Framework_TestCase
             ->expects($this->atLeastOnce())
             ->method('getCode')
             ->willReturn(Cashondelivery::PAYMENT_METHOD_CASHONDELIVERY_CODE);
+
+        $this->result->setData('is_available', true);
+
+        $this->guestFilter->execute($this->paymentMethodMock, $this->quoteMock, $this->result);
+
+        $this->assertTrue($this->result->getData('is_available'));
+    }
+
+    public function testExecuteWithoutConfig()
+    {
+        $this->quoteMock
+            ->expects($this->atLeastOnce())
+            ->method('getCustomerId')
+            ->willReturn(null);
+
+        $this->scopeConfigMock
+            ->expects($this->atLeastOnce())
+            ->method('getValue')
+            ->with(GuestFilter::XML_PATH_DISALLOWED_PAYMENT_METHODS_FOR_GUEST)
+            ->willReturn(null);
+
+        $this->paymentMethodMock
+            ->expects($this->never())
+            ->method('getCode');
 
         $this->result->setData('is_available', true);
 

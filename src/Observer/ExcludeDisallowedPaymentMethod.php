@@ -30,10 +30,6 @@ class ExcludeDisallowedPaymentMethod implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
-        if (!$observer || !($observer instanceof Observer)) {
-            return;
-        }
-
         $event = $observer->getEvent();
 
         if (!$event || !($event instanceof Event)) {

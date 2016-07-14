@@ -101,22 +101,20 @@ class ExcludeDisallowedPaymentMethodTest extends PHPUnit_Framework_TestCase
         $this->result->setData('is_available', false);
 
         $this->eventMock
-            ->expects($this->exactly(0))
-            ->method('getQuote')
-            ->willReturn($this->quoteMock);
+            ->expects($this->never())
+            ->method('getQuote');
 
         $this->eventMock
-            ->expects($this->exactly(0))
-            ->method('getMethodInstance')
-            ->willReturn($this->paymentMethodMock);
+            ->expects($this->never())
+            ->method('getMethodInstance');
 
         $this->eventMock
-            ->expects($this->exactly(1))
+            ->expects($this->atLeastOnce())
             ->method('getResult')
             ->willReturn($this->result);
 
         $this->observerMock
-            ->expects($this->exactly(1))
+            ->expects($this->atLeastOnce())
             ->method('getEvent')
             ->willReturn($this->eventMock);
 
@@ -133,27 +131,27 @@ class ExcludeDisallowedPaymentMethodTest extends PHPUnit_Framework_TestCase
         $this->result->setData('is_available', true);
 
         $this->eventMock
-            ->expects($this->exactly(1))
+            ->expects($this->atLeastOnce())
             ->method('getQuote')
             ->willReturn($this->quoteMock);
 
         $this->eventMock
-            ->expects($this->exactly(1))
+            ->expects($this->atLeastOnce())
             ->method('getMethodInstance')
             ->willReturn($this->paymentMethodMock);
 
         $this->eventMock
-            ->expects($this->exactly(1))
+            ->expects($this->atLeastOnce())
             ->method('getResult')
             ->willReturn($this->result);
 
         $this->observerMock
-            ->expects($this->exactly(1))
+            ->expects($this->atLeastOnce())
             ->method('getEvent')
             ->willReturn($this->eventMock);
 
         foreach ($this->filterList as $filter) {
-            $filter->expects($this->exactly(1))
+            $filter->expects($this->atLeastOnce())
                 ->method('execute');
         }
 
@@ -170,39 +168,146 @@ class ExcludeDisallowedPaymentMethodTest extends PHPUnit_Framework_TestCase
         $this->result->setData('is_available', true);
 
         $this->eventMock
-            ->expects($this->exactly(1))
+            ->expects($this->atLeastOnce())
             ->method('getQuote')
             ->willReturn($this->quoteMock);
 
         $this->eventMock
-            ->expects($this->exactly(1))
+            ->expects($this->atLeastOnce())
             ->method('getMethodInstance')
             ->willReturn($this->paymentMethodMock);
 
         $this->eventMock
-            ->expects($this->exactly(1))
+            ->expects($this->atLeastOnce())
             ->method('getResult')
             ->willReturn($this->result);
 
         $this->observerMock
-            ->expects($this->exactly(1))
+            ->expects($this->atLeastOnce())
             ->method('getEvent')
             ->willReturn($this->eventMock);
 
-        $this->filterList[0]->expects($this->exactly(1))
+        $this->filterList[0]->expects($this->atLeastOnce())
             ->method('execute');
 
-        $this->filterList[1]->expects($this->exactly(1))
+        $this->filterList[1]->expects($this->atLeastOnce())
             ->method('execute')
             ->willReturnCallback(function ($paymentMethod, $quote, $result) {
                 $result->setData('is_available', false);
             });
 
-        $this->filterList[2]->expects($this->exactly(0))
+        $this->filterList[2]->expects($this->never())
             ->method('execute');
 
         $this->excludeDisallowedPaymentMethodObserver->execute($this->observerMock);
 
         $this->assertFalse($this->result->getData('is_available'));
+    }
+
+    /**
+     * @test
+     */
+    public function testExecuteWithAllowedPaymentMethodWithoutQuote()
+    {
+        $this->result->setData('is_available', true);
+
+        $this->eventMock
+            ->expects($this->atLeastOnce())
+            ->method('getQuote')
+            ->willReturn(null);
+
+        $this->eventMock
+            ->expects($this->atLeastOnce())
+            ->method('getMethodInstance')
+            ->willReturn($this->paymentMethodMock);
+
+        $this->eventMock
+            ->expects($this->atLeastOnce())
+            ->method('getResult')
+            ->willReturn($this->result);
+
+        $this->observerMock
+            ->expects($this->atLeastOnce())
+            ->method('getEvent')
+            ->willReturn($this->eventMock);
+
+        foreach ($this->filterList as $filter) {
+            $filter->expects($this->never())
+                ->method('execute');
+        }
+
+        $this->excludeDisallowedPaymentMethodObserver->execute($this->observerMock);
+
+        $this->assertTrue($this->result->getData('is_available'));
+    }
+
+    /**
+     * @test
+     */
+    public function testExecuteWithAllowedPaymentMethodWithoutPaymentMethodInstance()
+    {
+        $this->result->setData('is_available', true);
+
+        $this->eventMock
+            ->expects($this->never())
+            ->method('getQuote');
+
+        $this->eventMock
+            ->expects($this->atLeastOnce())
+            ->method('getMethodInstance')
+            ->willReturn(null);
+
+        $this->eventMock
+            ->expects($this->atLeastOnce())
+            ->method('getResult')
+            ->willReturn($this->result);
+
+        $this->observerMock
+            ->expects($this->atLeastOnce())
+            ->method('getEvent')
+            ->willReturn($this->eventMock);
+
+        foreach ($this->filterList as $filter) {
+            $filter->expects($this->never())
+                ->method('execute');
+        }
+
+        $this->excludeDisallowedPaymentMethodObserver->execute($this->observerMock);
+
+        $this->assertTrue($this->result->getData('is_available'));
+    }
+
+    /**
+     * @test
+     */
+    public function testExecuteWithAllowedPaymentMethodWithoutEvent()
+    {
+        $this->result->setData('is_available', true);
+
+        $this->eventMock
+            ->expects($this->never())
+            ->method('getQuote');
+
+        $this->eventMock
+            ->expects($this->never())
+            ->method('getMethodInstance');
+
+        $this->eventMock
+            ->expects($this->never())
+            ->method('getResult');
+
+        $this->observerMock
+            ->expects($this->atLeastOnce())
+            ->method('getEvent')
+            ->willReturn(null);
+
+        foreach ($this->filterList as $filter) {
+            $filter->expects($this->never())
+                ->method('execute');
+        }
+
+        $this->excludeDisallowedPaymentMethodObserver->execute($this->observerMock);
+
+        $this->assertTrue($this->result->getData('is_available'));
     }
 }

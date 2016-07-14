@@ -1,6 +1,6 @@
 <?php
 
-namespace DR\PaymentMethodFilter\Test\Unit\Model\Check;
+namespace DR\PaymentMethodFilter\Test\Unit\Model\Filter;
 
 use DR\PaymentMethodFilter\Model\Filter\Customer as CustomerFilter;
 use Magento\Framework\DataObject;
@@ -12,7 +12,7 @@ use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use Magento\Framework\Api\AttributeInterface;
 
-class CanBeUsedByCustomerTest extends PHPUnit_Framework_TestCase
+class CustomerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Cashondelivery|PHPUnit_Framework_MockObject_MockObject
@@ -158,13 +158,45 @@ class CanBeUsedByCustomerTest extends PHPUnit_Framework_TestCase
         $this->customerMock
             ->expects($this->never())
             ->method('getCustomAttribute')
-            ->with('disallowed_payment_method')
+            ->with('disallowed_payment_methods')
             ->willReturn($this->attributeMock);
 
         $this->customerMock
             ->expects($this->atLeastOnce())
             ->method('getId')
             ->willReturn(null);
+
+        $this->quoteMock
+            ->expects($this->atLeastOnce())
+            ->method('getCustomer')
+            ->willReturn($this->customerMock);
+
+        $this->paymentMethodMock
+            ->expects($this->never())
+            ->method('getCode');
+
+        $this->result->setData('is_available', true);
+
+        $this->customerFilter->execute($this->paymentMethodMock, $this->quoteMock, $this->result);
+
+        $this->assertTrue($this->result->getData('is_available'));
+    }
+
+    /**
+     * @test
+     */
+    public function testExecuteWithCustomAttributeEqualsNull()
+    {
+        $this->customerMock
+            ->expects($this->atLeastOnce())
+            ->method('getCustomAttribute')
+            ->with('disallowed_payment_methods')
+            ->willReturn(null);
+
+        $this->customerMock
+            ->expects($this->atLeastOnce())
+            ->method('getId')
+            ->willReturn(1);
 
         $this->quoteMock
             ->expects($this->atLeastOnce())

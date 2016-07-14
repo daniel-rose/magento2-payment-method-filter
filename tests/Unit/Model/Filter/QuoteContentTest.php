@@ -209,4 +209,54 @@ class QuoteContentTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($this->result->getData('is_available'));
     }
+
+    public function testExecuteWithCustomAttributeEqualsNull()
+    {
+        $this->attributeMockForFirstProduct
+            ->expects($this->never())
+            ->method('getValue');
+
+        $this->firstProductMock
+            ->expects($this->atLeastOnce())
+            ->method('getCustomAttribute')
+            ->with('disallowed_payment_methods')
+            ->willReturn(null);
+
+        $this->firstQuoteItemMock
+            ->expects($this->atLeastOnce())
+            ->method('getProduct')
+            ->willReturn($this->firstProductMock);
+
+        $this->attributeMockForSecondProduct
+            ->expects($this->atLeastOnce())
+            ->method('getValue')
+            ->willReturn('');
+
+        $this->secondProductMock
+            ->expects($this->atLeastOnce())
+            ->method('getCustomAttribute')
+            ->with('disallowed_payment_methods')
+            ->willReturn($this->attributeMockForSecondProduct);
+
+        $this->secondQuoteItemMock
+            ->expects($this->atLeastOnce())
+            ->method('getProduct')
+            ->willReturn($this->secondProductMock);
+
+        $this->quoteMock
+            ->expects($this->atLeastOnce())
+            ->method('getAllVisibleItems')
+            ->willReturn([$this->firstQuoteItemMock, $this->secondQuoteItemMock]);
+
+        $this->paymentMethodMock
+            ->expects($this->never())
+            ->method('getCode')
+            ->willReturn(Cashondelivery::PAYMENT_METHOD_CASHONDELIVERY_CODE);
+
+        $this->result->setData('is_available', true);
+
+        $this->quoteContentFilter->execute($this->paymentMethodMock, $this->quoteMock, $this->result);
+
+        $this->assertTrue($this->result->getData('is_available'));
+    }
 }
