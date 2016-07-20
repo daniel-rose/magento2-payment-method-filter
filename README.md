@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/daniel-rose/magento2-payment-method-filter.svg?branch=master)](https://travis-ci.org/daniel-rose/magento2-payment-method-filter) [![Coverage Status](https://coveralls.io/repos/github/daniel-rose/magento2-payment-method-filter/badge.svg?branch=master)](https://coveralls.io/github/daniel-rose/magento2-payment-method-filter?branch=master)
+
 # DR_PaymentMethodFilter
 This module excludes payment methods from checkout by using filters.
 
