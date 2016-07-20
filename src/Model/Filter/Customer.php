@@ -6,7 +6,7 @@ use DR\PaymentMethodFilter\Model\FilterInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\DataObject;
 use Magento\Payment\Model\MethodInterface;
-use Magento\Quote\Model\Quote;
+use Magento\Quote\Api\Data\CartInterface;
 
 class Customer implements FilterInterface
 {
@@ -14,12 +14,12 @@ class Customer implements FilterInterface
      * Execute
      *
      * @param MethodInterface $paymentMethod
-     * @param Quote $quote
+     * @param CartInterface $quote
      * @param DataObject $result
      *
      * @return void
      */
-    public function execute(MethodInterface $paymentMethod, Quote $quote, DataObject $result)
+    public function execute(MethodInterface $paymentMethod, CartInterface $quote, DataObject $result)
     {
         $customer = $quote->getCustomer();
 

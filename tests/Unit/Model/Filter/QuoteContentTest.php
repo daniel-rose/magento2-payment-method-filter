@@ -6,11 +6,11 @@ use DR\PaymentMethodFilter\Model\Filter\QuoteContent;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Framework\Api\AttributeInterface;
 use Magento\Framework\DataObject;
+use Magento\Quote\Api\Data\CartInterface;
 use Magento\Quote\Model\Quote\Item;
 use PHPUnit_Framework_MockObject_MockObject;
 use PHPUnit_Framework_TestCase;
 use Magento\OfflinePayments\Model\Cashondelivery;
-use Magento\Quote\Model\Quote;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 
 class QuoteContentTest extends PHPUnit_Framework_TestCase
@@ -21,7 +21,7 @@ class QuoteContentTest extends PHPUnit_Framework_TestCase
     protected $paymentMethodMock;
 
     /**
-     * @var Quote|PHPUnit_Framework_MockObject_MockObject
+     * @var CartInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $quoteMock;
 
@@ -75,7 +75,7 @@ class QuoteContentTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->quoteMock = $this->getMockBuilder(Quote::class)
+        $this->quoteMock = $this->getMockBuilder(CartInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -144,7 +144,7 @@ class QuoteContentTest extends PHPUnit_Framework_TestCase
 
         $this->quoteMock
             ->expects($this->atLeastOnce())
-            ->method('getAllVisibleItems')
+            ->method('getItems')
             ->willReturn([$this->firstQuoteItemMock, $this->secondQuoteItemMock]);
 
         $this->paymentMethodMock
@@ -195,7 +195,7 @@ class QuoteContentTest extends PHPUnit_Framework_TestCase
 
         $this->quoteMock
             ->expects($this->atLeastOnce())
-            ->method('getAllVisibleItems')
+            ->method('getItems')
             ->willReturn([$this->firstQuoteItemMock, $this->secondQuoteItemMock]);
 
         $this->paymentMethodMock
@@ -245,7 +245,7 @@ class QuoteContentTest extends PHPUnit_Framework_TestCase
 
         $this->quoteMock
             ->expects($this->atLeastOnce())
-            ->method('getAllVisibleItems')
+            ->method('getItems')
             ->willReturn([$this->firstQuoteItemMock, $this->secondQuoteItemMock]);
 
         $this->paymentMethodMock

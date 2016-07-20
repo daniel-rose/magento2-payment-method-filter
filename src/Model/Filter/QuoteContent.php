@@ -4,7 +4,7 @@ namespace DR\PaymentMethodFilter\Model\Filter;
 
 use Magento\Framework\DataObject;
 use Magento\Payment\Model\MethodInterface;
-use Magento\Quote\Model\Quote;
+use Magento\Quote\Api\Data\CartInterface;
 use DR\PaymentMethodFilter\Model\FilterInterface;
 
 class QuoteContent implements FilterInterface
@@ -13,14 +13,14 @@ class QuoteContent implements FilterInterface
      * Execute
      *
      * @param MethodInterface $paymentMethod
-     * @param Quote $quote
+     * @param CartInterface $quote
      * @param DataObject $result
      * 
      * @return void
      */
-    public function execute(MethodInterface $paymentMethod, Quote $quote, DataObject $result)
+    public function execute(MethodInterface $paymentMethod, CartInterface $quote, DataObject $result)
     {
-        $visibleItems = $quote->getAllVisibleItems();
+        $visibleItems = $quote->getItems();
 
         foreach ($visibleItems as $visibleItem) {
             $product = $visibleItem->getProduct();

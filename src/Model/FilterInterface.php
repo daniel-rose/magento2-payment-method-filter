@@ -4,7 +4,7 @@ namespace DR\PaymentMethodFilter\Model;
 
 use Magento\Framework\DataObject;
 use Magento\Payment\Model\MethodInterface;
-use Magento\Quote\Model\Quote;
+use Magento\Quote\Api\Data\CartInterface;
 
 interface FilterInterface
 {
@@ -12,8 +12,8 @@ interface FilterInterface
      * Execute
      *
      * @param MethodInterface $paymentMethod
-     * @param Quote $quote
+     * @param CartInterface $quote
      * @param DataObject $result
      */
-    public function execute(MethodInterface $paymentMethod, Quote $quote, DataObject $result);
+    public function execute(MethodInterface $paymentMethod, CartInterface $quote, DataObject $result);
 }

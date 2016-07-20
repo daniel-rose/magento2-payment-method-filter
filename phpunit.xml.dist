@@ -23,6 +23,7 @@
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src</directory>
             <exclude>
+                <file>src/registration.php</file>
                 <directory>test</directory>
                 <directory>vendor</directory>
             </exclude>

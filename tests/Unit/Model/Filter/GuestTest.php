@@ -3,11 +3,12 @@
 namespace DR\PaymentMethodFilter\Test\Unit\Model\Filter;
 
 use DR\PaymentMethodFilter\Model\Filter\Guest as GuestFilter;
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use Magento\OfflinePayments\Model\Cashondelivery;
-use Magento\Quote\Model\Quote;
+use Magento\Quote\Api\Data\CartInterface;
 use PHPUnit_Framework_MockObject_MockObject;
 use PHPUnit_Framework_TestCase;
 
@@ -19,9 +20,14 @@ class GuestTest extends PHPUnit_Framework_TestCase
     protected $paymentMethodMock;
 
     /**
-     * @var Quote|PHPUnit_Framework_MockObject_MockObject
+     * @var CartInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $quoteMock;
+
+    /**
+     * @var CustomerInterface|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $customerMock;
 
     /**
      * @var GuestFilter
@@ -48,9 +54,12 @@ class GuestTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->quoteMock = $this->getMockBuilder(Quote::class)
+        $this->quoteMock = $this->getMockBuilder(CartInterface::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getCustomerId'])
+            ->getMock();
+
+        $this->customerMock = $this->getMockBuilder(CustomerInterface::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $this->scopeConfigMock = $this->getMockBuilder(ScopeConfigInterface::class)
@@ -66,10 +75,15 @@ class GuestTest extends PHPUnit_Framework_TestCase
 
     public function testExecuteWithGuestThatIsNotAllowedToPayByCashOnDelivery()
     {
+        $this->customerMock
+            ->expects($this->atLeastOnce())
+            ->method('getId')
+            ->willReturn(null);
+
         $this->quoteMock
             ->expects($this->atLeastOnce())
-            ->method('getCustomerId')
-            ->willReturn(null);
+            ->method('getCustomer')
+            ->willReturn($this->customerMock);
 
         $this->scopeConfigMock
             ->expects($this->atLeastOnce())
@@ -94,10 +108,15 @@ class GuestTest extends PHPUnit_Framework_TestCase
      */
     public function testExecuteWithCustomer()
     {
+        $this->customerMock
+            ->expects($this->atLeastOnce())
+            ->method('getId')
+            ->willReturn(1);
+
         $this->quoteMock
             ->expects($this->atLeastOnce())
-            ->method('getCustomerId')
-            ->willReturn(1);
+            ->method('getCustomer')
+            ->willReturn($this->customerMock);
 
         $this->scopeConfigMock
             ->expects($this->never())
@@ -119,10 +138,15 @@ class GuestTest extends PHPUnit_Framework_TestCase
 
     public function testExecuteWithGuestThatIsAllowedToPayByCashOnDelivery()
     {
+        $this->customerMock
+            ->expects($this->atLeastOnce())
+            ->method('getId')
+            ->willReturn(null);
+
         $this->quoteMock
             ->expects($this->atLeastOnce())
-            ->method('getCustomerId')
-            ->willReturn(null);
+            ->method('getCustomer')
+            ->willReturn($this->customerMock);
 
         $this->scopeConfigMock
             ->expects($this->atLeastOnce())
@@ -144,10 +168,15 @@ class GuestTest extends PHPUnit_Framework_TestCase
 
     public function testExecuteWithoutConfig()
     {
+        $this->customerMock
+            ->expects($this->atLeastOnce())
+            ->method('getId')
+            ->willReturn(null);
+
         $this->quoteMock
             ->expects($this->atLeastOnce())
-            ->method('getCustomerId')
-            ->willReturn(null);
+            ->method('getCustomer')
+            ->willReturn($this->customerMock);
 
         $this->scopeConfigMock
             ->expects($this->atLeastOnce())
