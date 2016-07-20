@@ -43,7 +43,10 @@
   },
   "autoload-dev": {
     "files": [
-      "var/generation/Magento/Quote/Api/Data/CartExtensionInterface.php"
+      "var/generation/Magento/Quote/Api/Data/CartExtensionInterface.php",
+      "var/generation/Magento/Quote/Api/Data/CartItemExtensionInterface.php",
+      "var/generation/Magento/Catalog/Api/Data/ProductExtensionInterface.php",
+      "var/generation/Magento/Customer/Api/Data/CustomerExtensionInterface.php"
     ],
     "psr-4": {
       "DR\\PaymentMethodFilter\\Test\\": "tests"
