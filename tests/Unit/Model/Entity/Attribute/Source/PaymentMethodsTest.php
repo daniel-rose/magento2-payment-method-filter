@@ -7,9 +7,9 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use Magento\Payment\Helper\Data;
 use Magento\Payment\Model\MethodInterface;
 use PHPUnit_Framework_MockObject_MockObject;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class PaymentMethodsTest extends PHPUnit_Framework_TestCase
+class PaymentMethodsTest extends TestCase
 {
     /**
      * @var PaymentMethods
