@@ -10,9 +10,9 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use Magento\OfflinePayments\Model\Cashondelivery;
 use Magento\Quote\Api\Data\CartInterface;
 use PHPUnit_Framework_MockObject_MockObject;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class GuestTest extends PHPUnit_Framework_TestCase
+class GuestTest extends TestCase
 {
     /**
      * @var Cashondelivery|PHPUnit_Framework_MockObject_MockObject

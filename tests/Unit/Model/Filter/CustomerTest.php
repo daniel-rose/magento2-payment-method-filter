@@ -6,13 +6,13 @@ use DR\PaymentMethodFilter\Model\Filter\Customer as CustomerFilter;
 use Magento\Framework\DataObject;
 use Magento\Quote\Api\Data\CartInterface;
 use PHPUnit_Framework_MockObject_MockObject;
-use PHPUnit_Framework_TestCase;
 use Magento\OfflinePayments\Model\Cashondelivery;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use Magento\Framework\Api\AttributeInterface;
+use PHPUnit\Framework\TestCase;
 
-class CustomerTest extends PHPUnit_Framework_TestCase
+class CustomerTest extends TestCase
 {
     /**
      * @var Cashondelivery|PHPUnit_Framework_MockObject_MockObject

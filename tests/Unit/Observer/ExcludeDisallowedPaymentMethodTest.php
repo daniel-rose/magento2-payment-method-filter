@@ -14,9 +14,9 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use Magento\OfflinePayments\Model\Cashondelivery;
 use Magento\Quote\Model\Quote;
 use PHPUnit_Framework_MockObject_MockObject;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class ExcludeDisallowedPaymentMethodTest extends PHPUnit_Framework_TestCase
+class ExcludeDisallowedPaymentMethodTest extends TestCase
 {
     /**
      * @var DataObject

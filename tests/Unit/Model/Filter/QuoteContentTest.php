@@ -9,11 +9,11 @@ use Magento\Framework\DataObject;
 use Magento\Quote\Api\Data\CartInterface;
 use Magento\Quote\Model\Quote\Item;
 use PHPUnit_Framework_MockObject_MockObject;
-use PHPUnit_Framework_TestCase;
 use Magento\OfflinePayments\Model\Cashondelivery;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
-class QuoteContentTest extends PHPUnit_Framework_TestCase
+class QuoteContentTest extends TestCase
 {
     /**
      * @var Cashondelivery|PHPUnit_Framework_MockObject_MockObject
