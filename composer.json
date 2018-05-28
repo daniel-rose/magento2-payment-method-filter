@@ -1,5 +1,6 @@
 {
   "name": "dr/payment-method-filter",
+  "version": "1.0.0"
   "description": "This module excludes payment methods from checkout by using filters.",
   "authors": [
     {
