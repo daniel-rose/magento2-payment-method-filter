@@ -21,6 +21,10 @@ class QuoteContent implements FilterInterface
     public function execute(MethodInterface $paymentMethod, CartInterface $quote, DataObject $result)
     {
         $visibleItems = $quote->getItems();
+        
+        if(!$visibleItems) {
+            return;
+        }
 
         foreach ($visibleItems as $visibleItem) {
             $product = $visibleItem->getProduct();
