@@ -15,7 +15,7 @@
     }
   ],
   "require": {
-    "magento/module-payment": "100.3.*|100.2.*"
+    "magento/module-payment": "100.4.*|100.3.*|100.2.*"
   },
   "require-dev": {
     "phpunit/phpunit": "^6.2.4",
